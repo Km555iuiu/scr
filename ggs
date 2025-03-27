@@ -1,0 +1,64 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("yes hee", "DarkTheme")
+
+local Tab = Window:NewTab("mian menu")
+local Section = Tab:NewSection("fly gui v3")
+
+--fly
+
+Section:NewButton("Click to Fly", "Click to Fly", function()
+loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Universal-Fly-V3-16477"))()
+end)
+
+--Click TP
+
+local Section = Tab:NewSection("Click TP")
+Section:NewButton("Click to TP", "Click TP", function()
+mouse = game.Players.LocalPlayer:GetMouse()
+tool = Instance.new("Tool")
+tool.RequiresHandle = false
+tool.Name = "Equip to Click TP"
+tool.Activated:connect(function()
+local pos = mouse.Hit+Vector3.new(0,2.5,0)
+pos = CFrame.new(pos.X,pos.Y,pos.Z)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end)
+tool.Parent = game.Players.LocalPlayer.Backpack
+end)
+
+--esp
+
+local Section = Tab:NewSection("esp player")
+Section:NewToggle("ToggleText", "ToggleInfo", function(state)
+    if state then
+        local Players = game:GetService("Players")
+
+-- Function to add a highlight effect to a player's character
+local function addHighlight(character)
+    local highlight = Instance.new("Highlight")
+    highlight.Parent = character
+    highlight.FillColor = Color3.new(1, 0, 0) -- Red glow
+    highlight.OutlineColor = Color3.new(1, 1, 1) -- White outline
+end
+
+-- Add highlight when a player spawns
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        addHighlight(character)
+    end)
+end)
+
+-- Add highlight to already existing players
+for _, player in ipairs(Players:GetPlayers()) do
+    if player.Character then
+        addHighlight(player.Character)
+    end
+end
+    else
+        for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("Highlight") or v:IsA("BoxHandleAdornment") or v:IsA("BillboardGui") then
+        v:Destroy()
+    end
+end
+    end
+end)
